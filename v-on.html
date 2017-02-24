@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<div id='temp'>
+    <span v-on:click='count +=1'>{{count}}</span>
+</div>
+<div id="temp2">
+    <button v-on:click="greet">greet</button>
+</div>
+<div id="temp3">
+    <input v-on:keyup.left="say('hi',$event)">
+    <button v-on:click="say('hello')">hello</button>
+</div>
+<body>
+<script>
+var vm=new Vue({
+    el:'#temp',
+    data:{
+        count:0
+    }
+})
+
+var vm2=new Vue({
+    el:'#temp2',
+    methods:{
+        greet:function(e){
+            if(e) event.preventDefault;
+            console.log(e)
+        }
+    }
+})
+
+var vm3=new Vue({
+    el:'#temp3',
+    methods:{
+        say:function(txt,event){
+            alert(txt);
+            console.log(event);
+        }
+    }
+})
+</script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>model</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="temp">
+        <input type="text" v-model.number="msg" placeholder="请输入。。。">
+        <span>{{msg}}</span>
+        <p style="white-space: pre;">{{msg2}}</p>
+        <textarea v-model="msg2" id="" cols="30" rows="10"></textarea>
+        <input type="checkbox" v-model="ck">
+        <span>{{ck}}</span>
+
+        <input type="checkbox" v-model="nicknames" value="xq1" id="nickname1">
+        <label for="nickname1"></label>
+        <input type="checkbox" v-model="nicknames" value="xq2" id="nickname2">
+        <label for="nickname2"></label>
+        <input type="checkbox" v-model="nicknames" value="xq3" id="nickname3">
+        <label for="nickname3"></label>
+        <p>nicknames:{{nicknames}}</p>
+
+        <input type="radio" id="one" value="one" v-model="radioItem">
+        <label for="one"></label>
+        <input type="radio" id="two" value="two" v-model="radioItem">
+        <label for="two"></label>
+
+        <span>{{radioItem}}</span>
+
+        <select name="" id="" v-model="selected" multiple>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+        </select>
+        <span>{{selected}}</span>
+
+        <select v-model='sel'>
+            <option v-for="item of option" v-bind:value="item.val">{{item.text}}</option>
+        </select>
+        <span>{{sel}}</span>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#temp',
+            data: {
+                msg: '',
+                msg2: '',
+                ck: false,
+                nicknames: [],
+                radioItem: '',
+                selected:[],
+                sel:'1',
+                option:[
+                    {text:'one',val:1},
+                    {text:'two',val:2}
+                ]
+            }
+        })
+    </script>
+</body>
+
+</html>

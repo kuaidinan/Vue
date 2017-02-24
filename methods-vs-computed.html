@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="temp" @click="test">
+	<p>{{msg}}</p>
+	<p>{{reverserMsg}}</p>
+	<p>{{reverseMethods()}}</p>
+</div>
+<script>
+	var data={
+		msg:'this is my text',
+		test:function(){
+
+		}
+	};
+
+	var component=new Vue({
+		el:'#temp',
+		data:data,
+		computed:{
+			//有缓存
+			reverserMsg:function (){
+				return Date.now();
+			}
+		},
+		methods:{
+			//没有缓存 每次都是最新数据
+			reverseMethods:function(){
+				return Date.now();
+			}
+		}
+	})
+</script>
+</body>
+</html>

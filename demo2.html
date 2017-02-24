@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<button id="template" v-bind:id="'list-'+divId | diy" v-bind:disabled="flag">{{msg | diy}}</button>
+<body>
+<script>
+	var data = {
+		a: 1,
+		msg:'this is a vue demo',
+		rawHtml:'<span>123</span>',
+		'divId':1,
+		flag:false
+	};
+	var myComponent = new Vue({
+		el:'#template',
+		data: data,
+		created:function(){
+			console.log(this.a);
+		},
+		filters:{
+			diy:function(value){
+				return value+"filter";
+			}
+		}
+	});
+	myComponent.$watch('a',function(newval,oldval){
+		console.log(newval+''+oldval);
+	})
+</script>
+</body>
+</html>

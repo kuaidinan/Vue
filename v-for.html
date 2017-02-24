@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="temp1">
+        <ul>
+            <li v-for="(item,index) in list">
+                {{city}}---{{item.msg}}---{{index}}
+            </li>
+        </ul>
+
+
+        <ul>
+            <template v-for="item in list">
+                <li>{{item.msg}}</li>
+                <li class="divider"></li>
+            </template>
+        </ul>
+    </div>
+</body>
+<script>
+var data={
+    city:'shanghai',
+    list:[
+        {id:1,'msg':'hello'},
+        {id:2,'msg':'world'}
+    ]
+}
+    var vm=new Vue({
+        el:'#temp1',
+        data:data
+    })
+</script>
+</html>
