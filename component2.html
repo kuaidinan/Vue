@@ -1,10 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
 </head>
+
 <body>
-    
+
+    <div id="temp">
+        <p>{{total}}</p>
+        <child-emit v-on:increment='incrementTotal'></child-emit>
+        <child-emit v-on:increment='incrementTotal'></child-emit>
+        <child-emit v-on:increment='incrementTotal'></child-emit>
+        <child-emit v-on:click.native='incrementTotal'></child-emit>
+    </div>
+
+    <script>
+        Vue.component('child-emit',{
+            template:"<button v-on:click='increment'>{{count}}</button>",
+            data:function(){
+                return {
+                    count:0
+                }
+            },
+            methods:{
+                increment:function(){
+                    this.count+=1;
+                    this.$emit('increment')
+                }
+            }
+        })
+
+        var vm=new Vue({
+            el:"#temp",
+            data:{
+                total:0
+            },
+            methods:{
+                incrementTotal:function(){
+                    this.total+=1;
+                }
+            }
+        })
+    </script>
 </body>
+
 </html>
