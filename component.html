@@ -8,7 +8,6 @@
 </head>
 <table id="temp1">
     <tr is="my-com"></tr>
-    <my-child-com></my-child-com>
 </table>
 
 
@@ -18,33 +17,70 @@
     <my-com1></my-com1>
 </div>
 
+
+<div class="temp3">
+    <my-com msg="123"></my-com>
+    <input type="text" v-model="txt">
+    <child v-bind:msg="txt"></child>
+</div>
+
 <body>
     <script>
         //全局
         Vue.component('my-com', {
-            template: '<div>this is my-com</div>'
+            props: ['msg'],
+            template: '<div>this is my-com {{msg}}</div>'
         })
-        var vm = new Vue({
-            el: '#temp1',
-            components: {
-                'my-child-com': {
-                    template: '<div>this is a child com</div>'
+
+        Vue.component('my-com1', {
+            template: "<button v-on:click='count +=1'>{{count}}</button>",
+            data: function () {
+                return {
+                    count: 0
                 }
             }
         })
 
-        //123
-        var data={
-            count:0
-        }
-        Vue.component('my-com1',{
-            template:"<button v-on:click='count +=1'>{{count}}</button>",
-            data:function(){
-                return data
+        Vue.component('child', {
+            props: {
+                msg: {
+                    validator: function (value) {
+                        return value < 10
+                    }
+                }
+
+            },
+            template: "<div>{{msg}}</div>",
+            // computed:{
+            //     newdata:function(){
+
+            //         return (this||'').msg.toUpperCase();
+            //     }
+            // },
+            data: function () {
+                return { count: 'new' + this.msg }
             }
         })
-        var vm=new Vue({
-            el:'#temp2'
+        var vm = new Vue({
+            el: '#temp1',
+            props: ['msg'],
+            components: {
+                'my-child-com': {
+                    template: '<div>this is a child com{{msg}}</div>'
+                }
+            }
+        })
+
+        var vm = new Vue({
+            el: '#temp2'
+        })
+
+        //TEMP3
+        var vm3 = new Vue({
+            el: '.temp3',
+            data: {
+                txt: ''
+            }
         })
     </script>
 
