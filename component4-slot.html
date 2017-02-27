@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div id='temp'>
+        <my-list v-bind:items='list'>
+            <template slot='item' scope='props'>
+                <li>{{props.value.name}}</li>
+            </template>
+        </my-list>
+    </div>
+    <div id='temp2'>
+        <component v-bind:is='currentView'></component>
+    </div>
+    <script>
+        Vue.component('my-list', {
+            template: "<ul>\
+                    <slot name='item' v-for='item of items' v-bind:value='item'>{{item.name}}</slot>\
+            </ul>",
+            props: ['items']
+        })
+        var vm = new Vue({
+            el: '#temp',
+            data: {
+                list: [
+                    { name: 'xq', text: 'hello' },
+                    { name: 'xq1', text: 'hello1' },
+                    { name: 'xq2', text: 'hello2' },
+                    { name: 'xq3', text: 'hello3' }
+                ]
+            }
+        })
+        var vm1 = new Vue({
+            el: '#temp2',
+            data: {
+                currentView: 'test1'
+            },
+            components: {
+                home: {
+                    template:'<div>home</div>'
+                },
+                test1: {
+                    template: '<div>test1</div>'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

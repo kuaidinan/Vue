@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="temp">
+        <current-component v-model='name'></current-component>
+        <test-emit></test-emit>
+    </div>
+    <script>
+        Vue.component('currentComponent', {
+            template: "\
+        <div>\
+            $\
+            <input type='text' ref='input' v-bind:value='value' v-on:input='formData($event.target.value)'/>\
+        </div>",
+            props: ['value'],
+            methods: {
+                formData: function (value) {
+                    var formdata = value.trim().slice(0, value.indexOf('.') + 3);
+                    if (formdata !== value) {
+                        this.$refs.input.value = formdata;
+                    }
+                    bus.$emit('test-1', 1);
+                    this.$emit('input', Number(formdata))
+                }
+            }
+        })
+        Vue.component('test-emit', {
+            template: "<div v-on:click='test'>123</div>",
+            methods: {
+                test: function () {
+                    bus.$on('test-1', function (id) {
+                        console.log(id);
+                    })
+                }
+            }
+        })
+        var vm = new Vue({
+            el: '#temp',
+            data: {
+                name: ''
+            },
+
+        })
+        var bus = new Vue();
+    </script>
+</body>
+
+</html>
