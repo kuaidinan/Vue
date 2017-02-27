@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <style>
+        .active{
+            background: blue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id='temp'>
+        <my-component v-bind:comval1='val1' v-bind:comval2='val2' v-on:event1='dothis' v-on:event2='dothat'>
+            <template solt='icon'>
+            </template>
+        </my-component>
+    </div>
+    <script>
+        Vue.component('my-component',{
+            template:"<div>\
+                <button v-on:click='add' v-bind:class='{active:IsActive}'>{{comval1}}</button>\
+                <button v-on:click='change'>{{comval2}}</button>\
+                <slot v-bind:is='icon'><img src='./userimg.jpeg'/></slot>\
+            </div>",
+            props:['comval1','comval2'],
+            data:function(){
+                return {
+                    IsActive:true
+                }
+            },
+            methods:{
+                add:function(){
+                    this.IsActive=!this.IsActive;
+                    this.$emit('event1');
+                },
+                change:function(){
+                    this.$emit('event2');
+                }
+            }
+        })
+        var vm=new Vue({
+            el:'#temp',
+            data:{
+                val1:'111',
+                val2:'222'
+            },
+            methods:{
+                dothis:function(){
+                    console.log('dothis');
+                },
+                dothat:function(){
+                    console.log('dothat');
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>
