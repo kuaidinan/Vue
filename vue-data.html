@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>深入响应式原理</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id='temp'>
+        <com1></com1>
+    </div>
+    <script>
+        Vue.component('com1', {
+            template: "<div v-on:click='messageUpdate'>{{message}}</div>",
+            data: () => {
+                return {
+                    message: '1231ff'
+                }
+            },
+            methods: {
+                messageUpdate:function(){
+                    this.message = 'update'
+                    console.log(this.$el.textContent);
+                    this.$nextTick(() => {
+                        console.log(this.$el.textContent);
+                    })
+                }
+            }
+        })
+        var vm = new Vue({
+            el: '#temp',
+            data: {
+                a: 1,
+                obj: {},
+                obj2: {},
+                obj3: { a: 1 }
+            },
+            created: function () {
+                this.$set(this.obj2, 'c', 3);
+                this.obj3 = Object.assign({}, this.obj3, { d: 123 })
+            }
+        })
+    </script>
+</body>
+
+</html>
