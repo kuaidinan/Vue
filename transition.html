@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="https://unpkg.com/animate.css@3.5.1/animate.min.css" rel="stylesheet" type="text/css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <style>
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 0.5s
+        }
+        
+        .fade-enter,
+        .fade-leave-active {
+            opacity: 0
+        }
+        
+        .move-enter-active,
+        .move-leave-active {
+            transition: all .5s;
+        }
+        
+        .move-enter,
+        .move-leave-active {
+            transform: translateX(10px);
+            opacity: 0
+        }
+        
+        .animate-enter-active {
+            animation: animate-in 0.5s;
+        }
+        
+        .animate-leave-active {
+            animation: animate-out 0.5s;
+        }
+        
+        @keyframes animate-in {
+            50% {
+                color: blue;
+            }
+            100% {
+                color: gold;
+            }
+        }
+        
+        @keyframes animate-out {
+            0% {
+                color: gold;
+            }
+            50% {
+                color: blue;
+            }
+        }
+        .component-fade-enter-active,.component-fade-leave{
+            transition: all 0.3s ease;
+        }
+        .component-fade-enter,.component-fade-leave-active{
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='temp'>
+        <button @click="show2=!show2">toggle</button>
+        <transition name="move">
+            <p v-if="show2">move</p>
+        </transition>
+        <button @click="show3=!show3">toggle</button>
+        <transition name='animate'>
+            <p v-if="show3">animate</p>
+        </transition>
+        <button @click="show4=!show4">toggle</button>
+        <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated hinge">
+            <p v-if="show4">enter/leave-acitve-class</p>
+        </transition>
+    </div>
+    <div id="temp2">
+        <transition name="fade" mode="out-in">
+            <button v-on:click='active=!active' key="on" v-if="active">on</button>
+            <button v-on:click='active=!active' key="off" v-else>off</button>
+        </transition>
+    </div>
+    <div id="temp3">
+        <input type="radio" name="view" v-model="view" value="com-a" id="a"><label for="a">A</label>
+        <input type="radio" name="view" v-model="view" value="com-b" id="b"><label for="b">B</label>
+        <transition name="component-fade" mode="out-in">
+            <component v-bind:is="view"></component>
+        </transition>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#temp',
+            data: {
+                show: true,
+                show2: true,
+                show3: true,
+                show4: true
+            }
+        })
+
+        var vm2 = new Vue({
+            el: '#temp2',
+            data: {
+                active: true
+            }
+        })
+        var vm3 = new Vue({
+            el: '#temp3',
+            data: {
+                view: 'com-a'
+            },
+            components: {
+                'com-a': {
+                    template: "<div>component A</div>"
+                },
+                'com-b': {
+                    template: "<div>component B</div>"
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

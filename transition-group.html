@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script> <!--仅提供shuffle-->
+
+    <style>
+        .list-item {
+            transition: all 1s ease;
+            display: inline-block;
+            margin-right: 15px;
+        }
+        
+        
+        .list-enter,
+        .list-leave-active {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .list-leave-active{
+            position: absolute;
+        }
+        .list-move{
+            transition: transform 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="temp">
+        <button @click="shuffle">shuffle</button>
+        <button @click="add">Add</button>
+        <button @click="remove">Remove</button>
+        <transition-group tag="p" name="list">
+            <span v-for="item of list" v-bind:key="item" class="list-item">
+                {{item}}
+            </span>
+        </transition-group>
+    </div>
+    <div id="temp2">
+        
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#temp',
+            data: {
+                list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                nextItem: 10
+            },
+            methods: {
+                randomNum: function () {
+                    return Math.floor(Math.random() * (this.list.length))
+                },
+                add: function () {
+                    this.list.splice(this.randomNum(), 0, this.nextItem++)
+                },
+                remove: function () {
+                    this.list.splice(this.randomNum(), 1)
+                },
+                shuffle: function () {
+                    this.list = _.shuffle(this.list)
+                }
+            }
+        })
+
+    </script>
+</body>
+
+</html>
