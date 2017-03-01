@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="temp">
+        <input type="text" v-focus>
+    </div>
+    <script>
+        Vue.directive('focus',{
+            inserted:function(el){
+                el.focus()
+            }
+        })
+        new Vue({
+            el:'#temp'
+        })
+    </script>
+</body>
+
+</html>

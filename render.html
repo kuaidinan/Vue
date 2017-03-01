@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="temp">
+        <my-component v-bind:level="4">my-component</my-component>
+        <link-component v-bind:level="2">asda</link-component>
+        <repeat text="444">123</repeat>
+    </div>
+    <script>
+        Vue.component("my-component", {
+            render: function (createElement) {
+                return createElement(
+                    'h' + this.level,
+                    {
+                        class: {
+                            foo: true,
+                            baz: false,
+                            icon: true
+                        },
+                        domProps: {
+                            innerHTML: 'hello'
+                        }
+                    },
+                    this.$slots.default
+                )
+            },
+            props: {
+                level: {
+                    type: Number,
+                    required: true
+                }
+            }
+        });
+        var getChildrenTextContent = function (children) {
+            if (!children) return "";
+            return children.map(function (node) {
+                return node.children
+                    ? getChildrenTextContent(node.children)
+                    : node.text
+            }).join('')
+        }
+        Vue.component("link-component", {
+
+            render: function (createElement) {
+                var headingId = getChildrenTextContent(this.$slots.default)
+                    .toLowerCase()
+                    .replace(/\W+/g, '-')
+                    .replace(/(^\-|\-$)/g, '')
+                return createElement(
+                    'h' + this.level,
+                    [
+                        createElement(
+                            "a", {
+                                attrs: {
+                                    href: "#" + headingId,
+                                    name: headingId
+                                }
+                            },
+                            this.$slots.default
+                        )
+                    ]
+                )
+            },
+            props: {
+                level: {
+                    type: Number,
+                    required: true
+                }
+            }
+        })
+        Vue.component("repeat", {
+            render: function (createElement) {
+                return createElement('div', [
+                    createElement('li', {
+                        // pass scopedSlots in the data object
+                        // in the form of { name: props => VNode | Array<VNode> }
+                        props:{
+                            icon:true
+                        },
+                        attrs:{
+                            id:'test'
+                        },
+                        scopedSlots: {
+                            default: function (props) {
+                                return createElement('span', props.text)
+                            }
+                        }
+                    })
+                ])
+            }
+        })
+        new Vue({
+            el: '#temp'
+        })
+    </script>
+</body>
+
+</html>
